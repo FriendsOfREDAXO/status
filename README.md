@@ -10,3 +10,4 @@ Aktuell werden folgende Informationen zur Verfügung gestellt:
 * Aktive/Inaktive Caching Header
 * Allgemeine Informationen zum Server
 * Gesetzte Konstanten
+* YForm REST Routen
