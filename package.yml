@@ -1,0 +1,34 @@
+package: status
+version: '0.0.1-dev'
+author: 'eaCe'
+
+page:
+  title: Status
+  perm: admin[]
+  icon: rex-icon fa-info
+  subpages:
+    status: { title: translate:status }
+
+requires:
+  redaxo: ^5.13.0
+  php:
+    version: '>=8.0'
+
+installer_ignore:
+  - node_modules
+  - .git
+  - .gitignore
+  - .github
+  - tests
+  - .tools
+  - package.json
+  - yarn.lock
+  - resources
+  - .editorconfig
+  - .eslintrc.js
+  - .stylelintrc.js
+  - phpcs.xml
+  - phpunit.xml.dist
+  - composer.json
+  - composer
+  - composer.lock

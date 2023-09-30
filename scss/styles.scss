@@ -1,0 +1,52 @@
+.status-collapse {
+  .p-0 {
+    padding: 0;
+  }
+
+  .py-0 {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .p-panel {
+    padding: 10px 15px;
+  }
+
+  .block {
+    display: block;
+  }
+
+  .panel-body {
+    table {
+      margin-bottom: 0;
+
+      tr {
+        td {
+        }
+        &.success {
+          td {
+            background-color: rgba(#5bb585, 0.1) !important;
+          }
+        }
+
+        &.warning {
+          td {
+            background-color: rgba(#cfb550, 0.1) !important;
+          }
+        }
+
+        &.danger {
+          td {
+            background-color: rgba(#d9534f, 0.1) !important;
+          }
+        }
+      }
+    }
+  }
+}
+

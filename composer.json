@@ -1,0 +1,20 @@
+{
+  "name": "eace/status",
+  "description": "Status AddOn for REDAXO 5",
+  "license": "MIT",
+  "scripts": {
+    "lint": "phplint ./ --exclude=vendor --no-cache lib",
+    "cs-dry": "php-cs-fixer fix -v --ansi --dry-run --config=.php-cs-fixer.dist.php",
+    "cs-fix": "php-cs-fixer fix -v --ansi --config=.php-cs-fixer.dist.php"
+  },
+  "require-dev": {
+    "overtrue/phplint": "^4.1",
+    "redaxo/php-cs-fixer-config": "^2.2.0",
+    "friendsofphp/php-cs-fixer": "^3.30.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
+}
