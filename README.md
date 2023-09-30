@@ -1,6 +1,10 @@
-# REDAXO-Addon: Status
+# REDAXO-AddOn: Status
 
-REDAXO 5 Addon um den Status der Website zu prüfen.
+REDAXO 5 AddOn um den Status der Website zu prüfen.
+Man kann das AddOn als eine Erweiterung des System-Status AddOns sehen.
+
+Neben allgemeinen Informationen zum Server, werden auch Informationen zu den installierten AddOns, sowie zu den Security
+und Caching Headern angezeigt. 
 
 Aktuell werden folgende Informationen zur Verfügung gestellt:
 
@@ -11,3 +15,9 @@ Aktuell werden folgende Informationen zur Verfügung gestellt:
 * Allgemeine Informationen zum Server
 * Gesetzte Konstanten
 * YForm REST Routen
+
+### Todo
+
+* [ ] Informationen zu Ordnergrößen
+* [ ] Informationen zu Error handling und Debugging
+* [ ] Informationen zu Cronjobs
