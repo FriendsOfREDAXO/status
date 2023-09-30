@@ -49,9 +49,12 @@ class Status
 
         foreach ($availableUpdates as $addonKey => $package) {
             $addon = rex_addon::get($addonKey);
-
+            $updateUrl = \rex_url::backendPage('install/packages/update', [
+                'addonkey' => $addonKey,
+            ]);
+            $title = $addon->getName() . ' [' . $addon->getVersion() . ']';
             $output[] = [
-                'title' => $package['name'] . ' [' . $addon->getVersion() . ']',
+                'title' => "<a href=\"$updateUrl\">$title</a>",
                 'value' => end($package['files'])['version'],
             ];
         }
