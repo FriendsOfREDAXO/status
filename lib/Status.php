@@ -7,6 +7,11 @@ use rex_addon;
 use rex_article;
 use rex_install_packages;
 use rex_request;
+use rex_url;
+
+use rex_yform_rest;
+use rex_yform_rest_route;
+
 use rex_yrewrite;
 
 use function extension_loaded;
@@ -49,7 +54,7 @@ class Status
 
         foreach ($availableUpdates as $addonKey => $package) {
             $addon = rex_addon::get($addonKey);
-            $updateUrl = \rex_url::backendPage('install/packages/update', [
+            $updateUrl = rex_url::backendPage('install/packages/update', [
                 'addonkey' => $addonKey,
             ]);
             $title = $addon->getName() . ' [' . $addon->getVersion() . ']';
@@ -293,6 +298,30 @@ class Status
                 'title' => 'Keine Konstanten definiert',
                 'value' => '',
             ];
+        }
+
+        return $output;
+    }
+
+    /**
+     * Get all routes.
+     */
+    public function getYFormRoutes(): array
+    {
+        $output = [];
+
+        if (rex_addon::get('yform')->isAvailable() && rex_addon::get('yform')->getPlugin('rest')->isAvailable()) {
+            $routes = rex_yform_rest::getRoutes();
+            $public = '<i class="rex-icon fa-unlock text-warning"></i>';
+            $secured = '<i class="rex-icon fa-lock text-success"></i>';
+
+            /** @var rex_yform_rest_route $route */
+            foreach ($routes as $route) {
+                $output[] = [
+                    'title' => $route->getPath(),
+                    'value' => !$route->hasAuth() ? "$secured Authentifizierung erforderlich" : "$public Keine Authentifizierung erforderlich",
+                ];
+            }
         }
 
         return $output;

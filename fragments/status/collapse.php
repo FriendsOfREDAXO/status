@@ -33,6 +33,16 @@ $status = new Status();
 
     <?php
     /**
+     * YForm routes.
+     */
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', 'YForm REST-Routen');
+    $fragment->setVar('contents', $status->getYFormRoutes(), false);
+    echo $fragment->parse('status/collapse-item.php');
+    ?>
+
+    <?php
+    /**
      * Security Headers.
      */
     $securityHeaders = $status->getSecurityHeaders();
