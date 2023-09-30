@@ -15,7 +15,7 @@ $status = new Status();
     $availableUpdatesCount = count($availableUpdates);
     $fragment = new rex_fragment();
     $fragment->setVar('title', "Neue Updates verfügbar [$availableUpdatesCount]");
-    $fragment->setVar('contents', $availableUpdates);
+    $fragment->setVar('contents', $availableUpdates, false);
     echo $fragment->parse('status/collapse-item.php');
     ?>
 
@@ -27,7 +27,7 @@ $status = new Status();
     $inactiveAddonsCount = count($inactiveAddons);
     $fragment = new rex_fragment();
     $fragment->setVar('title', "Inaktive AddOns [$inactiveAddonsCount]");
-    $fragment->setVar('contents', $inactiveAddons);
+    $fragment->setVar('contents', $inactiveAddons, false);
     echo $fragment->parse('status/collapse-item.php');
     ?>
 
@@ -43,7 +43,7 @@ $status = new Status();
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', "Security Headers [$availableSecurityHeaders/$securityHeadersCount]");
-    $fragment->setVar('contents', $status->getSecurityHeaders());
+    $fragment->setVar('contents', $status->getSecurityHeaders(), false);
     echo $fragment->parse('status/collapse-item.php');
     ?>
 
@@ -53,7 +53,7 @@ $status = new Status();
      */
     $fragment = new rex_fragment();
     $fragment->setVar('title', 'Caching Headers');
-    $fragment->setVar('contents', $status->getCachingHeaders());
+    $fragment->setVar('contents', $status->getCachingHeaders(), false);
     echo $fragment->parse('status/collapse-item.php');
     ?>
 
@@ -63,7 +63,7 @@ $status = new Status();
      */
     $fragment = new rex_fragment();
     $fragment->setVar('title', 'Allgemeine Informationen');
-    $fragment->setVar('contents', $status->getServerArchitecture());
+    $fragment->setVar('contents', $status->getServerArchitecture(), false);
     echo $fragment->parse('status/collapse-item.php');
     ?>
 
@@ -73,7 +73,7 @@ $status = new Status();
      */
     $fragment = new rex_fragment();
     $fragment->setVar('title', 'Konstanten');
-    $fragment->setVar('contents', $status->getConstants());
+    $fragment->setVar('contents', $status->getConstants(), false);
     echo $fragment->parse('status/collapse-item.php');
     ?>
 </div>
