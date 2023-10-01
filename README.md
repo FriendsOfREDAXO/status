@@ -17,9 +17,4 @@ Aktuell werden folgende Informationen zur Verfügung gestellt:
 * YForm REST Routen
 * Aktive und inaktive Cronjobs
 * Informationen zur Fehlerbehandlung und Debugging
-
-### Todo
-
-* [ ] Informationen zu Ordnergrößen
-* [x] Informationen zu Error handling und Debugging
-* [x] Informationen zu Cronjobs
+* Informationen zu Ordner- und Datenbankgrößen
