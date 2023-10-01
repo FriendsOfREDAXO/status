@@ -5,10 +5,12 @@ namespace FriendsOfREDAXO;
 use rex;
 use rex_addon;
 use rex_article;
+use rex_i18n;
 use rex_install_packages;
 use rex_request;
+use rex_sql;
+use rex_sql_exception;
 use rex_url;
-
 use rex_yform_rest;
 use rex_yform_rest_route;
 
@@ -320,6 +322,50 @@ class Status
                 $output[] = [
                     'title' => $route->getPath(),
                     'value' => !$route->hasAuth() ? "$secured Authentifizierung erforderlich" : "$public Keine Authentifizierung erforderlich",
+                ];
+            }
+        }
+
+        return $output;
+    }
+
+    /**
+     * Get cronjobs.
+     * @throws rex_sql_exception
+     */
+    public function getCronjobs(): array
+    {
+        $output = [];
+
+        if (rex_addon::get('cronjob')->isAvailable()) {
+            $sql = rex_sql::factory();
+            $cronjobs = $sql->getArray('SELECT id, name, environment, status FROM ' . rex::getTable('cronjob') . ' ORDER BY status DESC');
+            $active = '<i class="rex-icon fa-toggle-on text-success"></i>';
+            $inactive = '<i class="rex-icon fa-toggle-off text-danger"></i>';
+
+            foreach ($cronjobs as $cronjob) {
+                $env = [];
+                if (str_contains($cronjob['environment'], '|frontend|')) {
+                    $env[] = rex_i18n::msg('cronjob_environment_frontend');
+                }
+                if (str_contains($cronjob['environment'], '|backend|')) {
+                    $env[] = rex_i18n::msg('cronjob_environment_backend');
+                }
+                if (str_contains($cronjob['environment'], '|script|')) {
+                    $env[] = rex_i18n::msg('cronjob_environment_script');
+                }
+
+                $url = rex_url::backendPage('cronjob/cronjobs', [
+                    'func' => 'edit',
+                    'oid' => (int) $cronjob['id'],
+                ]);
+                $title = $cronjob['name'];
+                $value = $cronjob['status'] ? $active : $inactive;
+                $value .= ' ' . implode(', ', $env);
+
+                $output[] = [
+                    'title' => "<a href=\"$url\">$title</a>",
+                    'value' => $value,
                 ];
             }
         }

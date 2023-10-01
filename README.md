@@ -15,9 +15,10 @@ Aktuell werden folgende Informationen zur Verfügung gestellt:
 * Allgemeine Informationen zum Server
 * Gesetzte Konstanten
 * YForm REST Routen
+* Aktive und inaktive Cronjobs
 
 ### Todo
 
 * [ ] Informationen zu Ordnergrößen
 * [ ] Informationen zu Error handling und Debugging
-* [ ] Informationen zu Cronjobs
+* [x] Informationen zu Cronjobs

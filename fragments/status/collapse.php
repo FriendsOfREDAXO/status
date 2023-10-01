@@ -69,6 +69,16 @@ $status = new Status();
 
     <?php
     /**
+     * Cronjobs.
+     */
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', 'Cronjobs');
+    $fragment->setVar('contents', $status->getCronjobs(), false);
+    echo $fragment->parse('status/collapse-item.php');
+    ?>
+
+    <?php
+    /**
      * Server Information.
      */
     $fragment = new rex_fragment();
