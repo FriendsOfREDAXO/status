@@ -18,3 +18,7 @@ Aktuell werden folgende Informationen zur Verfügung gestellt:
 * Aktive und inaktive Cronjobs
 * Informationen zur Fehlerbehandlung und Debugging
 * Informationen zu Ordner- und Datenbankgrößen
+
+## TODO
+
+* [ ] Ordnergrößen cachen
