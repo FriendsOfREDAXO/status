@@ -21,6 +21,16 @@
     display: block;
   }
 
+  .opacity {
+    &-25 {
+      opacity: 0.25;
+    }
+
+    &-75 {
+      opacity: 0.75;
+    }
+  }
+
   .panel-body {
     table {
       margin-bottom: 0;
@@ -28,6 +38,7 @@
       tr {
         td {
         }
+
         &.success {
           td {
             background-color: rgba(#5bb585, 0.1) !important;
@@ -46,6 +57,24 @@
           }
         }
       }
+    }
+  }
+
+  .spinner {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .spinning {
+    animation: spin 1s infinite linear;
+  }
+
+  @keyframes spin {
+    from {
+      transform: scale(1) rotate(0deg);
+    }
+    to {
+      transform: scale(1) rotate(360deg);
     }
   }
 }

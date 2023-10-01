@@ -89,6 +89,16 @@ $status = new Status();
 
     <?php
     /**
+     * Database and directory sizes.
+     */
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', 'Ordner- und Datenbankgrößen');
+    $fragment->setVar('contents', $status->getDirectoryAndDatabaseSizes(), false);
+    echo $fragment->parse('status/collapse-item.php');
+    ?>
+
+    <?php
+    /**
      * Server Information.
      */
     $fragment = new rex_fragment();

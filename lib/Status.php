@@ -7,15 +7,16 @@ use rex_addon;
 use rex_article;
 use rex_i18n;
 use rex_install_packages;
+use rex_path;
 use rex_request;
 use rex_sql;
 use rex_sql_exception;
 use rex_url;
 use rex_yform_rest;
 use rex_yform_rest_route;
-
 use rex_yrewrite;
 
+use function count;
 use function extension_loaded;
 use function function_exists;
 use function ini_get;
@@ -412,6 +413,63 @@ class Status
                 'status' => (bool) !ini_get('display_startup_errors'),
             ],
 
+        ];
+    }
+
+    /**
+     * Get directory and database sizes.
+     */
+    public function getDirectoryAndDatabaseSizes(): array
+    {
+        $spinner = '<svg class="spinning spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>';
+
+        $output = [
+            [
+                'title' => 'Media Ordnergröße',
+                'value' => '<span class="dir-size" data-path="' . rex_path::media() . '">' . $spinner . ' Wird noch berechnet...</span>',
+            ],
+            [
+                'title' => 'Data Ordnergröße',
+                'value' => '<span class="dir-size" data-path="' . rex_path::data() . '">' . $spinner . ' Wird noch berechnet...</span>',
+            ],
+            [
+                'title' => 'Src Ordnergröße',
+                'value' => '<span class="dir-size" data-path="' . rex_path::src() . '">' . $spinner . ' Wird noch berechnet...</span>',
+            ],
+            [
+                'title' => 'Cache Ordnergröße',
+                'value' => '<span class="dir-size" data-path="' . rex_path::cache() . '">' . $spinner . ' Wird noch berechnet...</span>',
+            ],
+        ];
+
+        return array_merge($output, $this->getDatabaseSize());
+    }
+
+    /**
+     * Get Database size.
+     */
+    private function getDatabaseSize(): array
+    {
+        $sql = rex_sql::factory();
+        $tableData = $sql->getArray('SHOW TABLE STATUS');
+        $size = 0;
+
+        if (0 === count($tableData)) {
+            return [];
+        }
+
+        foreach ($tableData as $data) {
+            $size += $data['Data_length'] + $data['Index_length'];
+        }
+
+        return [
+            [
+                'title' => 'Datenbankgröße',
+                'value' => number_format($size / (1024 * 1024), 2) . ' MB',
+            ],
         ];
     }
 }
