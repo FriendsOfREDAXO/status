@@ -2,12 +2,10 @@ package: status
 version: '0.0.1-dev'
 author: 'eaCe'
 
-page:
-  title: Status
-  perm: admin[]
-  icon: rex-icon fa-info
-  subpages:
-    status: { title: translate:status }
+pages:
+  system/status:
+    title: Status
+    perm: admin[]
 
 requires:
   redaxo: ^5.13.0
