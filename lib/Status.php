@@ -372,4 +372,46 @@ class Status
 
         return $output;
     }
+
+    /**
+     * Get Error handling and debugging.
+     */
+    public function getErrorHandlingAndDebugging(): array
+    {
+        $errorLevels = [
+            E_ALL => 'E_ALL',
+            E_USER_DEPRECATED => 'E_USER_DEPRECATED',
+            E_DEPRECATED => 'E_DEPRECATED',
+            E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
+            E_STRICT => 'E_STRICT',
+            E_USER_NOTICE => 'E_USER_NOTICE',
+            E_USER_WARNING => 'E_USER_WARNING',
+            E_USER_ERROR => 'E_USER_ERROR',
+            E_COMPILE_WARNING => 'E_COMPILE_WARNING',
+            E_COMPILE_ERROR => 'E_COMPILE_ERROR',
+            E_CORE_WARNING => 'E_CORE_WARNING',
+            E_CORE_ERROR => 'E_CORE_ERROR',
+            E_NOTICE => 'E_NOTICE',
+            E_PARSE => 'E_PARSE',
+            E_WARNING => 'E_WARNING',
+            E_ERROR => 'E_ERROR'];
+
+        return [
+            [
+                'title' => 'Error Reporting',
+                'value' => $errorLevels[error_reporting()],
+            ],
+            [
+                'title' => 'Debugging (Display Errors)',
+                'value' => ini_get('display_errors'),
+                'status' => (bool) !ini_get('display_errors'),
+            ],
+            [
+                'title' => 'Debugging (Display Startup Errors)',
+                'value' => ini_get('display_startup_errors'),
+                'status' => (bool) !ini_get('display_startup_errors'),
+            ],
+
+        ];
+    }
 }

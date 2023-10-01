@@ -16,9 +16,10 @@ Aktuell werden folgende Informationen zur Verfügung gestellt:
 * Gesetzte Konstanten
 * YForm REST Routen
 * Aktive und inaktive Cronjobs
+* Informationen zur Fehlerbehandlung und Debugging
 
 ### Todo
 
 * [ ] Informationen zu Ordnergrößen
-* [ ] Informationen zu Error handling und Debugging
+* [x] Informationen zu Error handling und Debugging
 * [x] Informationen zu Cronjobs

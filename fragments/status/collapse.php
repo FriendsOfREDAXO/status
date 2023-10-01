@@ -69,6 +69,16 @@ $status = new Status();
 
     <?php
     /**
+     * Error handling and debugging.
+     */
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', 'Fehlerbehandlung und Debugging');
+    $fragment->setVar('contents', $status->getErrorHandlingAndDebugging(), false);
+    echo $fragment->parse('status/collapse-item.php');
+    ?>
+
+    <?php
+    /**
      * Cronjobs.
      */
     $fragment = new rex_fragment();
