@@ -19,6 +19,8 @@ Aktuell werden folgende Informationen zur Verfügung gestellt:
 * Informationen zur Fehlerbehandlung und Debugging
 * Informationen zu Ordner- und Datenbankgrößen
 
+![screenshot](/assets/screenshots/screenshot.png)
+
 ## TODO
 
 * [ ] Ordnergrößen cachen
