@@ -61,7 +61,7 @@ if (rex::isBackend() && rex::getUser()) {
              */
             $availableUpdatesCount = count($availableUpdates);
             $title = $page->getTitle();
-            $page->setTitle("$title <span class='badge'>$availableUpdatesCount</span>");
+            $page->setTitle("$title <span class='badge pull-right'>$availableUpdatesCount</span>");
         }
     },
 );
