@@ -40,10 +40,12 @@ class Status
         $this->url = rex::getServer();
 
         /**
-         * Check if yrewrite is available.
+         * Validate url.
          */
-        if (rex_addon::get('yrewrite')->isAvailable()) {
-            $this->url = rex_yrewrite::getFullUrlByArticleId(rex_article::getSiteStartArticleId());
+        if (!filter_var($this->url, FILTER_VALIDATE_URL)) {
+            $protocol = rex_server('HTTPS') ? 'https' : 'http';
+            $host = rex_server('HTTP_HOST');
+            $this->url = "$protocol://$host";
         }
 
         $this->headers = get_headers($this->url);
