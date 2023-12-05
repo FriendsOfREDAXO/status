@@ -37,6 +37,6 @@ jobs:
                 run: composer cs-fix
 
             # commit and push fixed files
-            -   uses: stefanzweifel/git-auto-commit-action@v4
-                with:
-                    commit_message: Apply php-cs-fixer changes
+            #-   uses: stefanzweifel/git-auto-commit-action@v4
+            #    with:
+            #        commit_message: Apply php-cs-fixer changes
