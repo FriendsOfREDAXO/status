@@ -4,7 +4,6 @@ namespace FriendsOfREDAXO;
 
 use rex;
 use rex_addon;
-use rex_article;
 use rex_i18n;
 use rex_install_packages;
 use rex_path;
@@ -14,7 +13,6 @@ use rex_sql_exception;
 use rex_url;
 use rex_yform_rest;
 use rex_yform_rest_route;
-use rex_yrewrite;
 
 use function count;
 use function extension_loaded;
