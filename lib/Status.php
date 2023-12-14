@@ -212,6 +212,7 @@ class Status
             $curlVersion = 'cURL ist nicht verfügbar.';
         }
         $isImagickAvailable = extension_loaded('imagick') ? 'Ja' : 'Nein';
+        $isXdebugAvailable = extension_loaded('xdebug') ? 'Ja' : 'Nein';
         $currentTime = date('Y-m-d H:i:s');
         $currentUtcTime = gmdate('Y-m-d H:i:s');
         $currentServerTime = date_default_timezone_get();
@@ -264,6 +265,10 @@ class Status
             [
                 'title' => 'Ist die Imagick-Bibliothek verfügbar?',
                 'value' => $isImagickAvailable,
+            ],
+            [
+                'title' => 'Xdebug aktiv?',
+                'value' => $isXdebugAvailable,
             ],
             [
                 'title' => 'Aktuelle Zeit',
