@@ -240,7 +240,7 @@ class Status
             ],
             [
                 'title' => 'Maximale PHP-Ausführungszeit (max_execution_time)',
-                'value' => $maxExecutionTime . 'Sekunden',
+                'value' => "$maxExecutionTime Sekunden",
             ],
             [
                 'title' => 'PHP-Speicher-Limit (memory_limit)',
@@ -248,7 +248,7 @@ class Status
             ],
             [
                 'title' => 'Maximale Eingabe-Zeit (max_input_time)',
-                'value' => $maxInputTime . 'Sekunden',
+                'value' => "$maxInputTime Sekunden",
             ],
             [
                 'title' => 'Maximale Dateigröße beim Upload (upload_max_filesize)',
