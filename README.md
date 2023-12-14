@@ -6,6 +6,8 @@ Man kann das AddOn als eine Erweiterung des System-Status sehen.
 Neben allgemeinen Informationen zum Server, werden auch Informationen zu den installierten AddOns, sowie zu den Security
 und Caching Headern angezeigt. 
 
+Weiter wird die Anzahl der Addons mit Aktualisierungen in der Sidebar angezeigt.
+
 Aktuell werden folgende Informationen zur Verfügung gestellt:
 
 * Neue Updates verfügbar
