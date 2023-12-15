@@ -28,6 +28,12 @@ class Status
     private $url;
 
     /**
+     * Addon.
+     * @var rex_addon
+     */
+    private $addon;
+
+    /**
      * Headers.
      * @var array
      */
@@ -36,6 +42,7 @@ class Status
     public function __construct()
     {
         $this->url = rex::getServer();
+        $this->addon = rex_addon::get('status');
 
         /**
          * Validate url.
@@ -82,7 +89,7 @@ class Status
             if (!$addon->isAvailable()) {
                 $output[] = [
                     'title' => $addon->getName(),
-                    'value' => 'Nicht aktiviert',
+                    'value' => $this->i18n('not_activated'),
                     'status' => false,
                 ];
             }
@@ -119,7 +126,7 @@ class Status
             } else {
                 $output[] = [
                     'title' => $header,
-                    'value' => 'Nicht vorhanden',
+                    'value' => $this->i18n('not_activated'),
                     'status' => false,
                 ];
             }
@@ -168,7 +175,7 @@ class Status
             } else {
                 $output[] = [
                     'title' => $header,
-                    'value' => 'Nicht vorhanden',
+                    'value' => $this->i18n('not_activated'),
                     'status' => false,
                 ];
             }
@@ -209,17 +216,17 @@ class Status
             $curlVersion = curl_version();
             $curlVersion = $curlVersion['version'];
         } else {
-            $curlVersion = 'cURL ist nicht verfügbar.';
+            $curlVersion = $this->i18n('curl_not_available');
         }
-        $isImagickAvailable = extension_loaded('imagick') ? 'Ja' : 'Nein';
-        $isXdebugAvailable = extension_loaded('xdebug') ? 'Ja' : 'Nein';
+        $isImagickAvailable = extension_loaded('imagick') ? $this->i18n('yes') : $this->i18n('no');
+        $isXdebugAvailable = extension_loaded('xdebug') ? $this->i18n('yes') : $this->i18n('no');
         $currentTime = date('Y-m-d H:i:s');
         $currentUtcTime = gmdate('Y-m-d H:i:s');
         $currentServerTime = date_default_timezone_get();
 
         return [
             [
-                'title' => 'Server-Architektur',
+                'title' => $this->i18n('server_architecture'),
                 'value' => $serverArchitecture,
             ],
             [
@@ -235,27 +242,27 @@ class Status
                 'value' => $phpSAPI,
             ],
             [
-                'title' => 'Maximale PHP-Eingabe-Variablen (max_input_vars)',
+                'title' => $this->i18n('max_input_vars'),
                 'value' => $maxInputVars,
             ],
             [
-                'title' => 'Maximale PHP-Ausführungszeit (max_execution_time)',
-                'value' => "$maxExecutionTime Sekunden",
+                'title' => $this->i18n('max_execution_time'),
+                'value' => $this->i18n('x_seconds', $maxExecutionTime),
             ],
             [
-                'title' => 'PHP-Speicher-Limit (memory_limit)',
+                'title' => $this->i18n('memory_limit'),
                 'value' => $memoryLimit,
             ],
             [
-                'title' => 'Maximale Eingabe-Zeit (max_input_time)',
-                'value' => "$maxInputTime Sekunden",
+                'title' => $this->i18n('max_input_time'),
+                'value' => $this->i18n('x_seconds', $maxInputTime),
             ],
             [
-                'title' => 'Maximale Dateigröße beim Upload (upload_max_filesize)',
+                'title' => $this->i18n('upload_max_filesize'),
                 'value' => $uploadMaxFilesize,
             ],
             [
-                'title' => 'Maximale Größe der PHP-Post-Daten (post_max_size)',
+                'title' => $this->i18n('post_max_size'),
                 'value' => $postMaxSize,
             ],
             [
@@ -263,11 +270,11 @@ class Status
                 'value' => $curlVersion,
             ],
             [
-                'title' => 'Ist die Imagick-Bibliothek verfügbar?',
+                'title' => $this->i18n('imagick_available'),
                 'value' => $isImagickAvailable,
             ],
             [
-                'title' => 'Xdebug aktiv?',
+                'title' => $this->i18n('xdebug_available'),
                 'value' => $isXdebugAvailable,
             ],
             [
@@ -275,11 +282,11 @@ class Status
                 'value' => $currentTime,
             ],
             [
-                'title' => 'Aktuelle UTC-Zeit',
+                'title' => $this->i18n('current_time'),
                 'value' => $currentUtcTime,
             ],
             [
-                'title' => 'Aktuelle Serverzeit',
+                'title' => $this->i18n('current_server_time'),
                 'value' => $currentServerTime,
             ],
         ];
@@ -303,7 +310,7 @@ class Status
             }
         } else {
             $output[] = [
-                'title' => 'Keine Konstanten definiert',
+                'title' => $this->i18n('no_constants_defined'),
                 'value' => '',
             ];
         }
@@ -322,12 +329,14 @@ class Status
             $routes = rex_yform_rest::getRoutes();
             $public = '<i class="rex-icon fa-unlock text-warning"></i>';
             $secured = '<i class="rex-icon fa-lock text-success"></i>';
+            $required = $this->i18n('authentication_required');
+            $notRequired = $this->i18n('authentication_not_required');
 
             /** @var rex_yform_rest_route $route */
             foreach ($routes as $route) {
                 $output[] = [
                     'title' => $route->getPath(),
-                    'value' => !$route->hasAuth() ? "$secured Authentifizierung erforderlich" : "$public Keine Authentifizierung erforderlich",
+                    'value' => !$route->hasAuth() ? "$secured $required" : "$public $notRequired",
                 ];
             }
         }
@@ -433,19 +442,19 @@ class Status
 
         $output = [
             [
-                'title' => 'Media Ordnergröße',
+                'title' => $this->i18n('media_dir_size'),
                 'value' => '<span class="dir-size" data-path="' . rex_path::media() . '">' . $spinner . ' Wird noch berechnet...</span>',
             ],
             [
-                'title' => 'Data Ordnergröße',
+                'title' => $this->i18n('data_dir_size'),
                 'value' => '<span class="dir-size" data-path="' . rex_path::data() . '">' . $spinner . ' Wird noch berechnet...</span>',
             ],
             [
-                'title' => 'Src Ordnergröße',
+                'title' => $this->i18n('src_dir_size'),
                 'value' => '<span class="dir-size" data-path="' . rex_path::src() . '">' . $spinner . ' Wird noch berechnet...</span>',
             ],
             [
-                'title' => 'Cache Ordnergröße',
+                'title' => $this->i18n('cache_dir_size'),
                 'value' => '<span class="dir-size" data-path="' . rex_path::cache() . '">' . $spinner . ' Wird noch berechnet...</span>',
             ],
         ];
@@ -472,9 +481,20 @@ class Status
 
         return [
             [
-                'title' => 'Datenbankgröße',
+                'title' => $this->i18n('db_size'),
                 'value' => number_format($size / (1024 * 1024), 2) . ' MB',
             ],
         ];
+    }
+
+    /**
+     * Get the translation for the given key.
+     * @param string $key
+     * @param array|string|null $replacements
+     * @return string
+     */
+    private function i18n(string $key, array|string|null $replacements = null): string
+    {
+        return $this->addon->i18n($key, $replacements);
     }
 }
