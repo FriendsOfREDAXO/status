@@ -36,21 +36,20 @@ class rex_api_status_dir_size extends rex_api_function
      */
     public function getDirSize($path): int
     {
+        if (!is_dir($path)) {
+            return 0;
+        }
+
         $size = 0;
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST,
+            RecursiveIteratorIterator::CATCH_GET_CHILD
+        );
 
-        if (is_dir($path)) {
-            $files = scandir($path);
-
-            foreach ($files as $file) {
-                if ('.' !== $file && '..' !== $file) {
-                    $filePath = $path . '/' . $file;
-
-                    if (is_dir($filePath)) {
-                        $size += $this->getDirSize($filePath);
-                    } else {
-                        $size += filesize($filePath);
-                    }
-                }
+        foreach ($files as $file) {
+            if ($file->isFile()) {
+                $size += $file->getSize();
             }
         }
 
