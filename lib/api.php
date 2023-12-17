@@ -33,8 +33,18 @@ class rex_api_status_dir_size extends rex_api_function
 
     /**
      * Get the size of a directory recursively.
+     *
+     * This function calculates the total size of all files within a specified directory and its subdirectories.
+     * If the specified path is not a directory, it returns 0.
+     *
+     * @param string $path the path of the directory
+     *
+     * @throws UnexpectedValueException if the path cannot be opened
+     * @throws FilesystemIterator::SKIP_DOTS if there is an error skipping dot files
+     *
+     * @return int the total size of all files within the directory and its subdirectories in bytes
      */
-    public function getDirSize($path): int
+    public function getDirSize(string $path): int
     {
         if (!is_dir($path)) {
             return 0;
@@ -42,9 +52,9 @@ class rex_api_status_dir_size extends rex_api_function
 
         $size = 0;
         $files = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
+            new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
             RecursiveIteratorIterator::SELF_FIRST,
-            RecursiveIteratorIterator::CATCH_GET_CHILD
+            RecursiveIteratorIterator::CATCH_GET_CHILD,
         );
 
         foreach ($files as $file) {

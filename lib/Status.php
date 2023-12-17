@@ -4,6 +4,7 @@ namespace FriendsOfREDAXO;
 
 use rex;
 use rex_addon;
+use rex_functional_exception;
 use rex_i18n;
 use rex_install_packages;
 use rex_path;
@@ -12,6 +13,7 @@ use rex_sql;
 use rex_sql_exception;
 use rex_url;
 use rex_yform_rest;
+
 use rex_yform_rest_route;
 
 use function count;
@@ -56,6 +58,18 @@ class Status
         $this->headers = get_headers($this->url);
     }
 
+    /**
+     * Fetches the available updates for the installed packages.
+     *
+     * This function retrieves the list of installed packages that have updates available.
+     * For each package, it creates an array containing the title (which is a link to the update page)
+     * and the version of the available update.
+     *
+     * @throws rex_functional_exception
+     * @return array An array of associative arrays. Each associative array has two keys:
+     *               'title' - a string that contains a link to the update page of the package,
+     *               'value' - a string that represents the version of the available update.
+     */
     public function getAvailableUpdates(): array
     {
         $output = [];
@@ -79,6 +93,14 @@ class Status
 
     /**
      * Get inactive addons.
+     *
+     * This method returns an array of all registered addons that are currently inactive.
+     * Each addon in the array is represented as an associative array with the following keys:
+     * - 'title': The name of the addon.
+     * - 'value': A string indicating that the addon is not activated.
+     * - 'status': A boolean value indicating the activation status of the addon (false means inactive).
+     *
+     * @return array an array of associative arrays, each representing an inactive addon
      */
     public function getInactiveAddons(): array
     {
@@ -100,6 +122,14 @@ class Status
 
     /**
      * Get all security headers from the url.
+     *
+     * This method returns an array of all checked security headers.
+     * Each header in the array is represented as an associative array with the following keys:
+     * - 'title': The name of the security header.
+     * - 'value': A string indicating the status of the header. 'OK' if the header is present, 'not_activated' otherwise.
+     * - 'status': A boolean value indicating the presence of the header (true means present).
+     *
+     * @return array an array of associative arrays, each representing a security header and its status
      */
     public function getSecurityHeaders(): array
     {
@@ -137,6 +167,14 @@ class Status
 
     /**
      * Get all caching headers from the url.
+     *
+     * This method returns an array of all checked caching headers.
+     * Each header in the array is represented as an associative array with the following keys:
+     * - 'title': The name of the caching header.
+     * - 'value': A string containing the values of the header if present, or a localized 'not_activated' message otherwise.
+     * - 'status': A boolean value indicating the presence of the header (true means present).
+     *
+     * @return array an array of associative arrays, each representing a caching header and its status
      */
     public function getCachingHeaders(): array
     {
@@ -185,7 +223,14 @@ class Status
     }
 
     /**
-     * Check if a header is present.
+     * Check if a specific header is present in the provided headers array.
+     *
+     * This method iterates over the provided headers array and checks if any of the headers start with the provided header name.
+     * If a match is found, the method returns true. If no match is found after checking all headers, the method returns false.
+     *
+     * @param array $headers An array of headers to check. Each header is a string.
+     * @param string $headerName the name of the header to look for
+     * @return bool returns true if the header is found, false otherwise
      */
     private function hasHeader(array $headers, string $headerName): bool
     {
@@ -199,6 +244,14 @@ class Status
 
     /**
      * Get server information.
+     *
+     * This method returns an array of server information. Each piece of information is represented as an associative array with the following keys:
+     * - 'title': The name of the information.
+     * - 'value': The value of the information.
+     *
+     * The information includes server architecture, server software, PHP version, PHP SAPI, max input vars, max execution time, memory limit, max input time, upload max filesize, post max size, cURL version, Imagick availability, Xdebug availability, current time, current UTC time, and current server time.
+     *
+     * @return array an array of associative arrays, each representing a piece of server information
      */
     public function getServerArchitecture(): array
     {
@@ -293,7 +346,15 @@ class Status
     }
 
     /**
-     * Get all constants.
+     * Get all user-defined constants.
+     *
+     * This method returns an array of all user-defined constants. Each constant is represented as an associative array with the following keys:
+     * - 'title': The name of the constant.
+     * - 'value': The value of the constant.
+     *
+     * If no user-defined constants are found, the method returns an array with a single element, an associative array with 'title' set to a localized 'no_constants_defined' message and 'value' set to an empty string.
+     *
+     * @return array an array of associative arrays, each representing a user-defined constant
      */
     public function getConstants(): array
     {
@@ -319,7 +380,16 @@ class Status
     }
 
     /**
-     * Get all routes.
+     * Get all YForm routes.
+     *
+     * This method returns an array of all YForm routes if the 'yform' addon and its 'rest' plugin are available.
+     * Each route is represented as an associative array with the following keys:
+     * - 'title': The path of the route.
+     * - 'value': A string containing an icon and a localized message indicating whether authentication is required for the route.
+     *
+     * If the 'yform' addon or its 'rest' plugin are not available, the method returns an empty array.
+     *
+     * @return array an array of associative arrays, each representing a YForm route
      */
     public function getYFormRoutes(): array
     {
@@ -345,8 +415,16 @@ class Status
     }
 
     /**
-     * Get cronjobs.
-     * @throws rex_sql_exception
+     * Fetches the list of cronjobs.
+     *
+     * This function retrieves the list of cronjobs from the database. For each cronjob, it creates an array containing the title (which is a link to the cronjob page)
+     * and the status of the cronjob (active or inactive) along with the environment it runs in.
+     *
+     * @throws rex_sql_exception if there is an error executing the SQL query
+     *
+     * @return array An array of associative arrays. Each associative array has two keys:
+     *               'title' - a string that contains a link to the cronjob page,
+     *               'value' - a string that represents the status of the cronjob and the environment it runs in.
      */
     public function getCronjobs(): array
     {
@@ -389,7 +467,17 @@ class Status
     }
 
     /**
-     * Get Error handling and debugging.
+     * Get error handling and debugging information.
+     *
+     * This method retrieves information about the current error handling and debugging settings.
+     * It checks the values of various PHP configuration options related to error reporting, display, and logging,
+     * as well as the REDAXO debug mode status.
+     *
+     * The information is returned in an array of associative arrays. Each associative array represents a piece of information and has the following keys:
+     * - 'title': The name of the information, e.g., 'Display Errors', 'Error Reporting', 'Error Log', 'REDAXO Debug Mode'.
+     * - 'value': The value of the information, which can be a boolean (represented as 'On' or 'Off') or a string.
+     *
+     * @return array an array of associative arrays, each representing a piece of error handling or debugging information
      */
     public function getErrorHandlingAndDebugging(): array
     {
@@ -432,6 +520,19 @@ class Status
 
     /**
      * Get directory and database sizes.
+     *
+     * This method retrieves the sizes of the specified directories and the database.
+     * For each directory, it calculates the total size of all files in the directory.
+     * For the database, it sums the data length and index length of all tables.
+     *
+     * The sizes are returned in an array of associative arrays. Each associative array represents a directory or the database and has the following keys:
+     * - 'title': The name of the directory or 'Database'.
+     * - 'value': The size of the directory or database in megabytes (MB), formatted to two decimal places.
+     *
+     * If a specified directory does not exist or is not readable, its size is not included in the returned data.
+     *
+     * @throws rex_sql_exception
+     * @return array an array of associative arrays, each representing a directory or the database and its size
      */
     public function getDirectoryAndDatabaseSizes(): array
     {
@@ -463,7 +564,17 @@ class Status
     }
 
     /**
-     * Get Database size.
+     * Get the size of the database.
+     *
+     * This method retrieves the size of the database by summing the data length and index length of all tables.
+     * The size is returned in megabytes (MB) and is formatted to two decimal places.
+     *
+     * If there are no tables in the database, the method returns an empty array.
+     *
+     * @throws rex_sql_exception
+     * @return array An array of associative arrays, each representing a piece of database information. Each associative array has the following keys:
+     * - 'title': The name of the information, which is a localized 'db_size' message.
+     * - 'value': The value of the information, which is the size of the database in MB.
      */
     private function getDatabaseSize(): array
     {
@@ -489,9 +600,13 @@ class Status
 
     /**
      * Get the translation for the given key.
-     * @param string $key
-     * @param array|string|null $replacements
-     * @return string
+     *
+     * This method retrieves the translation for the provided key from REDAXO's translation system.
+     * If replacements are provided, they will be inserted into the translation string at the corresponding placeholders.
+     *
+     * @param string $key the key for the translation string to retrieve
+     * @param array|string|null $replacements The replacements to insert into the translation string. Can be an array, a string, or null.
+     * @return string the translated string with any replacements inserted
      */
     private function i18n(string $key, array|string|null $replacements = null): string
     {
